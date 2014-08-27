@@ -16,9 +16,7 @@ module.exports = function (command, options) {
     stats = new Stats();
 
     levee = new Levee(command, options);
-    levee.__defineGetter__('stats', (function (stats) {
-        return stats.snapshot.bind(stats);
-    })(stats));
+    levee.__defineGetter__('stats', stats.snapshot.bind(stats));
 
     levee.on('execute', stats.increment.bind(stats, 'executions'));
     levee.on('reject',  stats.increment.bind(stats, 'rejections'));
