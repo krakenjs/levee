@@ -1,6 +1,6 @@
 'use strict';
 
-var breaker = require('../');
+var levee = require('../');
 
 var options, fallback1, fallback2, impl, command;
 
@@ -35,12 +35,12 @@ impl = {
 
 };
 
-fallback2 = breaker(fallback2, options);
+fallback2 = levee(fallback2, options);
 
-fallback1 = breaker(fallback1, options);
+fallback1 = levee(fallback1, options);
 fallback1.fallback = fallback2;
 
-command = breaker(impl, options);
+command = levee(impl, options);
 command.fallback = fallback1;
 
 command.run({}, function (err, data) {

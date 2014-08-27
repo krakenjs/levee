@@ -2,9 +2,9 @@
 
 var test = require('tape');
 var http = require('http');
-var fuse = require('../');
+var levee = require('../');
 
-test('fuse', function (t) {
+test('levee', function (t) {
 
     var port, request, fallback1, fallback2;
 
@@ -91,12 +91,12 @@ test('fuse', function (t) {
         var calls = 10000;
         var failures = 5;
 
-        var fb2 = fuse(fallback2, { resetTimeout: 1000 });
+        var fb2 = levee(fallback2, { resetTimeout: 1000 });
 
-        var fb1 = fuse(fallback1, {resetTimeout: 500 });
+        var fb1 = levee(fallback1, {resetTimeout: 500 });
         fb1.fallback = fb2;
 
-        var breaker = fuse(request, { resetTimeout: 5000 });
+        var breaker = levee(request, { resetTimeout: 5000 });
         breaker.fallback = fb1;
 
         breaker.on('open', function () {
