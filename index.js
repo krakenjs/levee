@@ -4,7 +4,7 @@ var Levee = require('./lib/levee');
 var Stats = require('./lib/stats');
 
 
-module.exports = function (command, options) {
+module.exports = function (command, fallback, options) {
     var stats, levee;
 
     if (typeof command === 'function') {
@@ -13,11 +13,17 @@ module.exports = function (command, options) {
         };
     }
 
+    if (!(fallback instanceof Levee)) {
+        options = fallback;
+        fallback = undefined;
+    }
+
     stats = new Stats();
 
     levee = new Levee(command, options);
-    levee.__defineGetter__('stats', stats.snapshot.bind(stats));
+    levee.fallback = fallback;
 
+    levee.__defineGetter__('stats', stats.snapshot.bind(stats));
     levee.on('execute', stats.increment.bind(stats, 'executions'));
     levee.on('reject',  stats.increment.bind(stats, 'rejections'));
     levee.on('success', stats.increment.bind(stats, 'successes'));

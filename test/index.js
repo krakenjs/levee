@@ -118,10 +118,10 @@ test('levee', function (t) {
                     t.end();
                 }
 
-//                console.log(arguments);
-                console.log(breaker.stats);
-                console.log(fb1.stats);
-                console.log(fb2.stats);
+                console.log(arguments);
+//                console.log(breaker.stats);
+//                console.log(fb1.stats);
+//                console.log(fb2.stats);
 
                 calls -= 1;
 
