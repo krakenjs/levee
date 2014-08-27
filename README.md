@@ -63,8 +63,8 @@ function fallback(url, callback) {
     callback(null, new Buffer('The requested website is not responding. Please try again later.'));
 }
 
-circuit = levee(service, fallback, options);
-// or: `circuit.fallback = levee(fallback, options);`
+circuit = levee(service, options);
+circuit.fallback = levee(fallback, options);
 
 circuit.on('timeout', function () {
     console.log('Request timed out.');
