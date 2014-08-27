@@ -1,0 +1,21 @@
+{
+  "name": "levee",
+  "version": "0.0.0",
+  "description": "A circuitbreaker implementation for Node.js",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "keywords": [
+    "circuit",
+    "levee"
+  ],
+  "author": "Erik Toth <totherik@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "tape": "^2.14.0"
+  }
+}
