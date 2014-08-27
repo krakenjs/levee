@@ -5,7 +5,7 @@ A [circuit breaker](http://doc.akka.io/docs/akka/snapshot/common/circuitbreaker.
 ryanfitz's [node-circuitbreaker](https://github.com/ryanfitz/node-circuitbreaker).
 
 
-#### Usage
+#### Basic Usage
 ```javascript
 'use strict';
 
