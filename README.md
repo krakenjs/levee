@@ -46,7 +46,7 @@ options = {
     resetTimeout: 30000
 };
 
-circuit = levee(service, options);
+circuit = Levee.createBreaker(service, options);
 circuit.run('http://www.google.com', function (err, data) {
     // If the service fails or timeouts occur 5 consecutive times,
     // the breaker opens, fast failing subsequent requests.
@@ -63,7 +63,7 @@ function fallback(url, callback) {
     callback(null, new Buffer('The requested website is not responding. Please try again later.'));
 }
 
-circuit = levee(service, options);
+circuit = Levee.createBreaker(service, options);
 circuit.fallback = levee(fallback, options);
 
 circuit.on('timeout', function () {
