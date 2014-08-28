@@ -64,7 +64,7 @@ function fallback(url, callback) {
 }
 
 circuit = Levee.createBreaker(service, options);
-circuit.fallback = levee(fallback, options);
+circuit.fallback = Levee.createBreaker(fallback, options);
 
 circuit.on('timeout', function () {
     console.log('Request timed out.');
@@ -80,9 +80,13 @@ circuit.run('http://www.google.com', function (err, data) {
     console.log(err || data);
 });
 
+var stats, fbStats;
+stats = Levee.createStats(circuit);
+fbStats = Levee.createStats(circuit.fallback);
+
 // Print stats every 5 seconds.
 setInterval(function () {
-    console.log(circuit.stats);
-    console.log(circuit.fallback.stats);
+    console.log(stats.snapshot());
+    console.log(fbStats.snapshot());
 }, 5000);
 ```
