@@ -9,7 +9,7 @@
   "scripts": {
     "test": "tape test/*.js",
     "cover": "istanbul cover tape -- test/*.js",
-    "lint": "jshint -c .jshintrc index.js lib/*.js"
+    "lint": "eslint index.js lib/*.js"
   },
   "keywords": [
     "circuit",
@@ -20,7 +20,8 @@
   "devDependencies": {
     "eslint": "^0.7.4",
     "istanbul": "^0.3.0",
-    "tape": "^2.14.0"
+    "tape": "^2.14.0",
+    "wreck": "^3.0.0"
   },
   "dependencies": {
     "hoek": "^2.4.1"

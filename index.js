@@ -34,4 +34,3 @@ exports.createStats = function createStats(command) {
 
     return stats;
 };
-
