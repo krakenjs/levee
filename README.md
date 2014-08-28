@@ -38,7 +38,6 @@ function service(url, callback) {
 };
 
 
-
 var options, circuit;
 
 options = {
