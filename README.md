@@ -10,7 +10,7 @@ ryanfitz's [node-circuitbreaker](https://github.com/ryanfitz/node-circuitbreaker
 'use strict';
 
 var http = require('http');
-var levee = require('levee');
+var Levee = require('levee');
 
 
 function service(url, callback) {

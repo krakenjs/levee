@@ -1,29 +1,37 @@
 'use strict';
 
-var Levee = require('./lib/levee');
+var Assert = require('assert');
+var Breaker = require('./lib/breaker');
 var Stats = require('./lib/stats');
 
 
-module.exports = function levee(command, options) {
-    var stats, levee;
+exports.Breaker = Breaker;
+exports.Stats = Stats;
 
-    if (typeof command === 'function') {
-        command = {
-            execute: command
-        };
+
+exports.createBreaker = function createBreaker(impl, options) {
+    if (typeof impl === 'function') {
+        impl = { execute: impl };
     }
 
-    levee = new Levee(command, options);
+    return new Breaker(impl, options);
+};
+
+
+exports.createStats = function createStats(command) {
+    var stats;
+
+    Assert.ok(command instanceof Breaker, 'Stats can only be created for Breaker instances.');
 
     stats = new Stats();
-    levee.__defineGetter__('stats', stats.snapshot.bind(stats));
-    levee.on('execute', stats.increment.bind(stats, 'executions'));
-    levee.on('reject',  stats.increment.bind(stats, 'rejections'));
-    levee.on('success', stats.increment.bind(stats, 'successes'));
-    levee.on('failure', stats.increment.bind(stats, 'failures'));
-    levee.on('timeout', stats.increment.bind(stats, 'timeouts'));
-    levee.on('duration', stats.sample.bind(stats, 'duration'));
 
-    return levee;
+    command.on('execute', stats.increment.bind(stats, 'executions'));
+    command.on('reject',  stats.increment.bind(stats, 'rejections'));
+    command.on('success', stats.increment.bind(stats, 'successes'));
+    command.on('failure', stats.increment.bind(stats, 'failures'));
+    command.on('timeout', stats.increment.bind(stats, 'timeouts'));
+    command.on('duration', stats.sample.bind(stats, 'duration'));
+
+    return stats;
 };
 
