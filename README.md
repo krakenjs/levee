@@ -169,7 +169,7 @@ a Breaker instance to fallback to in the case of the Breaker entering the `open`
 Executes the wrapped functionality within the circuit breaker functionality with the arguments:
 
     - `context` - any context to be provided to the implementation.
-    - `callback` - the callback to be fired upon completion with the signature: `function (err, [param1, param2, ...])`;
+    - `callback` - the callback to be fired upon completion with the signature `function (err, [param1, param2, ...])`
 
 
 ## Stats
