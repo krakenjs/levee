@@ -150,7 +150,7 @@ var breaker = Levee.createStats(breaker);
 
 `new Levee.Breaker(command, options)` or `Levee.createBreaker(command, options)`
 
-### Options
+#### Options
 ##### `timeout`
 the amount of time to allow an operation to run before terminating with an error.
 
@@ -160,11 +160,11 @@ the number of failures allowed before the Breaker enters the `open` state.
 ##### `resetTimeout`
 the amount of time to wait before switch the Breaker from the `open` to `half_open` state to attempt recovery.
 
-### Properties
+#### Properties
 ##### `fallback`
 a Breaker instance to fallback to in the case of the Breaker entering the `open` state.
 
-### Methods
+#### Methods
 ##### `run(context, callback)`
 Executes the wrapped functionality within the circuit breaker functionality with the arguments:
 
@@ -175,7 +175,7 @@ Executes the wrapped functionality within the circuit breaker functionality with
 ## Stats
 `new Levee.Stats(breaker)` or `Levee.createStats(breaker)`
 
-### Methods
+#### Methods
 
 ##### `increment(name)`
 
