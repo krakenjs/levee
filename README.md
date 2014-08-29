@@ -90,3 +90,54 @@ setInterval(function () {
     console.log(fbStats.snapshot());
 }, 5000);
 ```
+
+
+
+#### API
+
+### Breaker
+Creates a new Breaker instance with the following arguments:
+- `command` -  an object with a property named `execute` with value being a function using the signature:
+    `function (context, callback)` where:
+    - `context` - Any context needed to execute the desired behavior.
+    - `callback` - A callback function with the signature `function (err, [arg1, arg2, ...])`
+
+```javascript
+var Levee = require('levee');
+
+var breaker = new Levee.Breaker({ execute: fn }, options);
+```
+
+### createBreaker(command [, options])
+An alternative method for creating Breaker instances with the following arguments:
+- `command` - either function or an object with a property named `execute` with value being a function using the signature:
+    `function (context, callback)` where:
+    - `context` - Any context needed to execute the desired behavior.
+    - `callback` - A callback function with the signature `function (err, [arg1, arg2, ...])`
+
+```javascript
+var Levee = require('levee');
+
+
+function doStuff(context, callback) {
+    callback(null, 'ok');
+}
+
+var breaker = new Levee.createBreaker(fn, options);
+```
+
+## Stats
+Create a new Stats instance: `new Stats(breaker)`
+```javascript
+var Levee = require('levee');
+
+var breaker = new Levee.Stats(breaker);
+```
+
+### createStats(breaker)
+```javascript
+var Levee = require('levee');
+
+var breaker = Levee.createStats(breaker);
+```
+
