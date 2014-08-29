@@ -11,33 +11,8 @@ pattern can be found in the [akka documentation](http://doc.akka.io/docs/akka/sn
 ```javascript
 'use strict';
 
-var http = require('http');
 var Levee = require('levee');
-
-
-function service(url, callback) {
-    var req;
-
-    req = http.get(url, function (res) {
-        var body;
-
-        body = [];
-
-        res.on('readable', function () {
-            var chunk;
-            while ((chunk = res.read()) !== null) {
-                body.push(chunk);
-            }
-        });
-
-        res.on('end', function () {
-            callback(null, Buffer.concat(body));
-        });
-    });
-
-    req.on('error', callback);
-};
-
+var Wreck = require('wreck');
 
 var options, circuit;
 
@@ -47,11 +22,11 @@ options = {
     resetTimeout: 30000
 };
 
-circuit = Levee.createBreaker(service, options);
-circuit.run('http://www.google.com', function (err, data) {
+circuit = Levee.createBreaker(Wreck.get, options);
+circuit.run('http://www.google.com', function (err, req, payload) {
     // If the service fails or timeouts occur 5 consecutive times,
     // the breaker opens, fast failing subsequent requests.
-    console.log(err || data);
+    console.log(err || payload);
 });
 
 ```
@@ -75,10 +50,10 @@ circuit.on('failure', function (err) {
     console.log('Request failed.', err);
 });
 
-circuit.run('http://www.google.com', function (err, data) {
+circuit.run('http://www.google.com', function (err, req, payload) {
     // If the service fails or timeouts occur 5 consecutive times,
     // the breaker opens, fast failing subsequent requests.
-    console.log(err || data);
+    console.log(err || payload);
 });
 
 var stats, fbStats;
