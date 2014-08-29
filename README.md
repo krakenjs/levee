@@ -2,7 +2,8 @@ Levee
 ========
 
 A [circuit breaker](http://doc.akka.io/docs/akka/snapshot/common/circuitbreaker.html) implementation based heavily on
-ryanfitz's [node-circuitbreaker](https://github.com/ryanfitz/node-circuitbreaker).
+ryanfitz's [node-circuitbreaker](https://github.com/ryanfitz/node-circuitbreaker). More information about the circuitbreaker
+pattern can be found in the [akka documentation](http://doc.akka.io/docs/akka/snapshot/common/circuitbreaker.html).
 
 [![Build Status](https://travis-ci.org/totherik/levee.svg)](https://travis-ci.org/totherik/levee)
 
