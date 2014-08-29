@@ -122,7 +122,7 @@ function doStuff(context, callback) {
     callback(null, 'ok');
 }
 
-var breaker = new Levee.createBreaker(fn, options);
+var breaker = Levee.createBreaker(fn, options);
 ```
 
 ## new Stats(breaker)
