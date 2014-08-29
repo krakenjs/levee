@@ -175,16 +175,16 @@ Executes the wrapped functionality within the circuit breaker functionality with
 ## Stats
 ### Methods
 
-- `increment(name)`
+##### `increment(name)`
 
-- `decrement(name)`
+##### `decrement(name)`
 
-- `sample(name, value)`
+##### `sample(name, value)`
 
-- `snapshot()`
+##### `snapshot()`
 
-- `reset()`
+##### `reset()`
 
-- `resetCounts([name])`
+##### `resetCounts([name])`
 
-- `resetSamples([name])`
+##### `resetSamples([name])`
