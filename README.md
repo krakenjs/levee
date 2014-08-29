@@ -145,3 +145,23 @@ var Levee = require('levee');
 var breaker = Levee.createStats(breaker);
 ```
 
+
+## Server
+### Server Options
+- `timeout` - the amount of time to allow an operation to run before terminating with an error.
+- `maxFailures` - the number of failures allowed before the Breaker enters the `open` state.
+- `resetTimeout` - the amount of time to wait before switch the Breaker from the `open` to `half_open` state to attempt recovery.
+
+### Server Properties
+- `fallback` - a Breaker instance to fallback to in the case of the Breaker entering the `open` state.
+
+### Server Methods
+- `run(context, callback)`
+
+Executes the wrapped functionality within the circuit breaker functionality.
+
+    - `context` - any context to be provided to the implementation.
+    - `callback` - the callback to be fired upon completion with the singature: `function (err, [param1, param2, ...])`;
+
+## Stats
+### Stats Methods
