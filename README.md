@@ -146,7 +146,10 @@ var breaker = Levee.createStats(breaker);
 ```
 
 
-## Server
+## Breaker
+
+`new Levee.Breaker(command, options)` or `Levee.createBreaker(command, options)`
+
 ### Options
 - `timeout` - the amount of time to allow an operation to run before terminating with an error.
 - `maxFailures` - the number of failures allowed before the Breaker enters the `open` state.
@@ -158,8 +161,7 @@ var breaker = Levee.createStats(breaker);
 ### Methods
 - `run(context, callback)`
 
-Executes the wrapped functionality within the circuit breaker functionality.
-
+Executes the wrapped functionality within the circuit breaker functionality with the arguments:
     - `context` - any context to be provided to the implementation.
     - `callback` - the callback to be fired upon completion with the singature: `function (err, [param1, param2, ...])`;
 
