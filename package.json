@@ -4,7 +4,6 @@
   "description": "A circuitbreaker implementation for Node.js",
   "main": "index.js",
   "directories": {
-    "example": "examples",
     "test": "test"
   },
   "scripts": {
@@ -14,6 +13,8 @@
   },
   "keywords": [
     "circuit",
+    "breaker",
+    "circuitbreaker",
     "levee"
   ],
   "author": "Erik Toth <totherik@gmail.com>",
