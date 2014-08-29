@@ -95,7 +95,7 @@ setInterval(function () {
 
 #### API
 
-### Breaker
+### Breaker(command [, options])
 Creates a new Breaker instance with the following arguments:
 - `command` -  an object with a property named `execute` with value being a function using the signature:
     `function (context, callback)` where:
@@ -118,7 +118,6 @@ An alternative method for creating Breaker instances with the following argument
 ```javascript
 var Levee = require('levee');
 
-
 function doStuff(context, callback) {
     callback(null, 'ok');
 }
@@ -126,8 +125,9 @@ function doStuff(context, callback) {
 var breaker = new Levee.createBreaker(fn, options);
 ```
 
-## Stats
-Create a new Stats instance: `new Stats(breaker)`
+## new Stats(breaker)
+Create a new Stats instance.
+
 ```javascript
 var Levee = require('levee');
 
@@ -135,6 +135,8 @@ var breaker = new Levee.Stats(breaker);
 ```
 
 ### createStats(breaker)
+An alternative method for creating a new Stats instance.
+
 ```javascript
 var Levee = require('levee');
 
