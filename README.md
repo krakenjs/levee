@@ -162,6 +162,7 @@ var breaker = Levee.createStats(breaker);
 - `run(context, callback)`
 
 Executes the wrapped functionality within the circuit breaker functionality with the arguments:
+
     - `context` - any context to be provided to the implementation.
     - `callback` - the callback to be fired upon completion with the singature: `function (err, [param1, param2, ...])`;
 
