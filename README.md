@@ -95,7 +95,7 @@ setInterval(function () {
 
 #### API
 
-### Breaker(command [, options])
+### new Breaker(command [, options])
 Creates a new Breaker instance with the following arguments:
 - `command` -  an object with a property named `execute` with value being a function using the signature:
     `function (context, callback)` where:
