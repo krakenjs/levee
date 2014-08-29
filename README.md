@@ -36,7 +36,7 @@ circuit.run('http://www.google.com', function (err, req, payload) {
 ```javascript
 
 function fallback(url, callback) {
-    callback(null, new Buffer('The requested website is not responding. Please try again later.'));
+    callback(null, null, new Buffer('The requested website is not available. Please try again later.'));
 }
 
 circuit = Levee.createBreaker(service, options);
