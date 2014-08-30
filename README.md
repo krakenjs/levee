@@ -154,15 +154,30 @@ Executes the wrapped functionality within the circuit breaker functionality with
 #### Methods
 
 ##### `increment(name)`
+Increment a named counter.
+- `name` - the label of the counter to increment.
 
 ##### `decrement(name)`
+Decrement a named counter.
+- `name` - the label of the counter to decrement.
 
 ##### `sample(name, value)`
+Take a sample of a given value.
+- `name` - the label of the sample being recorded.
+- `value` - the sample value being recorded.
 
 ##### `snapshot()`
+Get the current state of the current Stats instance. Returns an object with the following properties:
+- `counts` - A map of names to current count values.
+- `samples` - A map of names to current sample averages and counts, in the form of: `{ average: 0, count, 0 }`
 
 ##### `reset()`
+Resets all counts and samples.
 
 ##### `resetCounts([name])`
+Reset counts for the provided name. If no name is provided, resets all counts.
+- `name` - the label of the count to reset.
 
 ##### `resetSamples([name])`
+Reset samples for the provided name. If no name is provided, resets all samples.
+- `name` - the label of the sample to reset.
