@@ -131,10 +131,10 @@ test('failure', function (t) {
 test('fallback', function (t) {
     var breaker, fallback;
 
-    breaker = new Breaker(failure, { maxFailures: 1 });
+    breaker = new Breaker(failure, { maxFailures: 2 });
     breaker.fallback = fallback = new Breaker(command);
 
-    t.plan(8);
+    t.plan(13);
     t.ok(breaker.isClosed());
     t.ok(fallback.isClosed());
 
@@ -147,11 +147,18 @@ test('fallback', function (t) {
     });
 
     breaker.run('not ok', function (err, data) {
-        t.error(err);
-        t.ok(data);
-        t.ok(breaker.isOpen());
+        t.ok(err);
+        t.notOk(data);
+        t.ok(breaker.isClosed());
         t.ok(fallback.isClosed());
-        t.end();
+
+        breaker.run('ok', function (err, data) {
+            t.notOk(err);
+            t.ok(data);
+            t.ok(breaker.isOpen());
+            t.ok(fallback.isClosed());
+            t.end();
+        });
     });
 });
 
