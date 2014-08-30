@@ -151,6 +151,8 @@ Executes the wrapped functionality within the circuit breaker functionality with
 ## Stats
 `new Levee.Stats(breaker)` or `Levee.createStats(breaker)`
 
+A simple data aggregation object.
+
 #### Methods
 
 ##### `increment(name)`
