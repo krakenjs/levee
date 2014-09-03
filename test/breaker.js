@@ -219,3 +219,65 @@ test('multiple failures', function (t) {
         });
     });
 });
+
+
+test('recovery', function (t) {
+    var called, impl, breaker;
+
+    called = 0;
+
+    impl = {
+        execute: function failThenSucceed(value, callback) {
+            called += 1;
+            if (called <= 2) {
+                callback(new Error(value));
+                return;
+            }
+            callback(null, value);
+        }
+    };
+
+    breaker = new Breaker(impl, { resetTimeout: 5, maxFailures: 1 });
+
+    t.ok(breaker.isClosed());
+
+    // Fail first time, so open
+    breaker.run('not ok', function (err, data) {
+        t.ok(err);
+        t.equal(err.message, 'not ok');
+        t.notOk(data);
+        t.ok(breaker.isOpen());
+
+        // Wait for reset
+        setTimeout(function () {
+
+            t.ok(breaker.isHalfOpen());
+
+            // Fail second time, so re-open
+            breaker.run('not ok', function (err, data) {
+                t.ok(err);
+                t.equal(err.message, 'not ok');
+                t.notOk(data);
+                t.ok(breaker.isOpen());
+
+                // Wait for reset
+                setTimeout(function () {
+
+                    t.ok(breaker.isHalfOpen());
+
+                    // Succeed 3..n times
+                    breaker.run('ok', function (err, data) {
+                        t.error(err);
+                        t.equal(data, 'ok');
+                        t.ok(breaker.isClosed());
+                        t.end();
+                    });
+
+                }, 50);
+
+            });
+
+        }, 50);
+
+    });
+});
