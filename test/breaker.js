@@ -59,47 +59,69 @@ test('api', function (t) {
 
 
 test('states', function (t) {
-    var options, breaker;
+    var options, breaker, map;
 
     options = { resetTimeout: 50 };
     breaker = new Breaker(command, options);
+    map = {
+        open: { name: 'open', assertion: 'isOpen' },
+        halfOpen: { name: 'half_open', assertion: 'isHalfOpen' },
+        close: { name: 'close', assertion: 'isClosed' }
+    };
+
+    function transition(cb) {
+        var previousState = 'close';
+        var states = ['open', 'halfOpen', 'close', 'open'];
+        var reverseMap = {};
+        Object.keys(map).forEach(function (key) {
+            var entry = map[key];
+            reverseMap[entry.name] = key;
+        });
+
+        function _transition() {
+            var state;
+            if ((state = states.shift())) {
+                breaker.once('state', function (newState, fromState) {
+                    t.equal(newState, map[state].name);
+                    t.equal(fromState, map[previousState].name);
+                    Object.keys(map).forEach(function (key) {
+                        var _test = breaker[map[key].assertion].bind(breaker);
+                        if (key === state) {
+                            t.ok(_test());
+                        } else {
+                            t.notOk(_test());
+                        }
+                    });
+                    previousState = reverseMap[newState];
+                    _transition();
+                });
+                breaker[state]();
+            } else {
+                cb();
+            }
+        };
+        _transition();
+    }
 
     // Default state
     t.ok(breaker.isClosed());
 
-    breaker.open();
-    t.ok(breaker.isOpen());
-    t.notOk(breaker.isClosed());
-    t.notOk(breaker.isHalfOpen());
+    transition(function () {
+        setTimeout(function () {
 
-    breaker.halfOpen();
-    t.notOk(breaker.isOpen());
-    t.notOk(breaker.isClosed());
-    t.ok(breaker.isHalfOpen());
+            // Reset timeout expired, so should be half-open.
+            t.ok(breaker.isHalfOpen());
 
-    breaker.close();
-    t.notOk(breaker.isOpen());
-    t.ok(breaker.isClosed());
-    t.notOk(breaker.isHalfOpen());
+            breaker.run('ok', function (err, data) {
+                // Succeeded, so half-open should transition to closed.
+                t.error(err);
+                t.ok(data);
+                t.ok(breaker.isClosed());
+                t.end();
+            });
 
-    // Break the Breaker
-    breaker.open();
-    t.ok(breaker.isOpen());
-
-    setTimeout(function () {
-
-        // Reset timeout expired, so should be half-open.
-        t.ok(breaker.isHalfOpen());
-
-        breaker.run('ok', function (err, data) {
-            // Succeeded, so half-open should transition to closed.
-            t.error(err);
-            t.ok(data);
-            t.ok(breaker.isClosed());
-            t.end();
-        });
-
-    }, options.resetTimeout * 2);
+        }, options.resetTimeout * 2);
+    });
 
 });
 
@@ -219,7 +241,6 @@ test('multiple failures', function (t) {
         });
     });
 });
-
 
 test('recovery', function (t) {
     var called, impl, breaker;
