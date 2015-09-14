@@ -281,3 +281,38 @@ test('recovery', function (t) {
 
     });
 });
+
+test('custom failure check', function (t) {
+    var breaker;
+    var nonCritialError = new Error('Non-critical');
+
+    nonCritialError.shouldTrip = false;
+
+    var failure = {
+        execute: function (cb) {
+            cb(nonCritialError);
+        }
+    }
+
+    breaker = new Breaker(failure, {
+        isFailure: function (err) {
+            return err.shouldTrip === true;
+        },
+        maxFailures: 1
+    });
+
+    t.ok(breaker.isClosed());
+
+    breaker.run(function (err) {
+        t.ok(err);
+        t.equal(err.message, 'Non-critical');
+        t.ok(breaker.isClosed(), 'Breaker should be closed');
+
+        breaker.run(function (err) {
+            t.ok(err);
+            t.equal(err.message, 'Non-critical', 'The original error should be returned');
+            t.ok(breaker.isClosed(), 'Breaker should remain closed');
+            t.end();
+        });
+    });
+});

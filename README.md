@@ -136,6 +136,9 @@ the number of failures allowed before the Breaker enters the `open` state.
 ##### `resetTimeout`
 the amount of time to wait before switch the Breaker from the `open` to `half_open` state to attempt recovery.
 
+##### `isFailure`
+function that returns true if an error should be considered a failure (receives the error object returned by your command.) This allows for non-critical errors to be ignored by the circuit breaker.
+
 #### Properties
 ##### `fallback`
 a Breaker instance to fallback to in the case of the Breaker entering the `open` state.
