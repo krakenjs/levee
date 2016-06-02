@@ -189,7 +189,7 @@ test('timeout', function (t) {
 
     breaker.run('ok', function (err, data) {
         t.ok(err);
-        t.equal(err.message, 'Command timeout.');
+        t.equal(err.message, 'Circuit breaker timed out');
         t.notOk(data);
         t.ok(breaker.isOpen());
         t.end();
