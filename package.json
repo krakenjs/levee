@@ -18,6 +18,9 @@
     "levee"
   ],
   "author": "Erik Toth <totherik@gmail.com>",
+  "contributors": [
+    "Oscar Funes <me@oscarfunes.com> (http://oscarfunes.com)"
+  ],
   "license": "ISC",
   "devDependencies": {
     "eslint": "^3.6.1",
