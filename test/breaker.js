@@ -316,3 +316,36 @@ test('custom failure check', function (t) {
         });
     });
 });
+
+test('custom timeout error message', function (t) {
+    var breaker;
+    var timeoutErrMsg = 'Connection timeout on service call A';
+    breaker = new Breaker(timeout, { timeout: 10, maxFailures: 1, timeoutErrMsg: timeoutErrMsg });
+
+    t.ok(breaker.isClosed());
+
+    breaker.run('ok', function (err, data) {
+        t.ok(err);
+        t.equal(err.message, timeoutErrMsg);
+        t.end();
+    });
+});
+
+test('custom open error message', function (t) {
+    var breaker;
+    var openErrMsg = 'Service A is not available right now';
+    breaker = new Breaker(failure, { maxFailures: 1, openErrMsg: openErrMsg });
+
+    t.ok(breaker.isClosed());
+
+    breaker.run('not ok', function (err, data) {
+        t.ok(err);
+        t.equal(err.message, 'not ok');
+
+        breaker.run('not ok', function (err, data) {
+            t.ok(err);
+            t.equal(err.message, openErrMsg);
+            t.end();
+        });
+    });
+});
