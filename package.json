@@ -26,6 +26,7 @@
     "wreck": "^3.0.0"
   },
   "dependencies": {
+    "end-of-stream": "^1.1.0",
     "hoek": "^2.4.1"
   },
   "repository": {

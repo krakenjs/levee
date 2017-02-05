@@ -119,7 +119,7 @@ test('failure', function (t) {
 
         breaker.run('not ok', function (err, data) {
             t.ok(err);
-            t.equal(err.message, 'Command not available.');
+            t.equal(err.message, 'Circuit breaker forced failure. It will stop forcing failures once calls start succeeding');
             t.notOk(data);
             t.ok(breaker.isOpen());
             t.end();
@@ -189,7 +189,7 @@ test('timeout', function (t) {
 
     breaker.run('ok', function (err, data) {
         t.ok(err);
-        t.equal(err.message, 'Command timeout.');
+        t.equal(err.message, 'Circuit breaker timed out');
         t.notOk(data);
         t.ok(breaker.isOpen());
         t.end();
