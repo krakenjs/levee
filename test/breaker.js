@@ -127,6 +127,18 @@ test('failure', function (t) {
     });
 });
 
+test('test return value', function (t) {
+    t.plan(1);
+
+    var breaker = new Breaker({
+        execute: function (arg, callback) {
+            callback();
+            return arg;
+        }
+    });
+
+    t.equal(breaker.run('ok', function () {}), 'ok');
+});
 
 test('fallback', function (t) {
     var breaker, fallback;
