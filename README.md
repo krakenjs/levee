@@ -139,6 +139,12 @@ the amount of time to wait before switch the Breaker from the `open` to `half_op
 ##### `isFailure`
 function that returns true if an error should be considered a failure (receives the error object returned by your command.) This allows for non-critical errors to be ignored by the circuit breaker.
 
+##### `timeoutErrMsg`
+Custom error message to be used, for timeout error.
+
+##### `openErrMsg`
+Custom error message to be used, when circuit is open and command is not available.
+
 #### Properties
 ##### `fallback`
 a Breaker instance to fallback to in the case of the Breaker entering the `open` state.
