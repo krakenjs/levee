@@ -67,7 +67,22 @@ setInterval(function () {
 }, 5000);
 ```
 
+#### Using Promise
+```javascript
+var Levee = require('levee');
+var axios = require('axios')
 
+var circuit = Levee.createBreaker(axios.get.bind(axios), options);
+
+circuit
+    .run('https://httpbin.org/uuid')
+    .then((response) => {
+        console.log(response.data)
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+```
 
 ## API
 

@@ -398,4 +398,3 @@ test('Failing Promise', function (t) {
             t.end();
         })
 });
-
