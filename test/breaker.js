@@ -12,9 +12,25 @@ var command = {
     }
 };
 
+var promiseCommand = {
+    execute: function execute(value) {
+        return new Promise(function (resolve, reject) {
+            return resolve(value)
+        })
+    }
+};
+
 var failure = {
     execute: function execute(value, callback) {
         callback(new Error(value));
+    }
+};
+
+var promiseFailure = {
+    execute: function execute(value, callback) {
+        return new Promise(function (resolve, reject) {
+            return reject(new Error(value))
+        })
     }
 };
 
@@ -349,3 +365,37 @@ test('custom open error message', function (t) {
         });
     });
 });
+
+test('Resolving Promise', function (t) {
+    var breaker;
+
+    breaker = new Breaker(promiseCommand);
+
+    t.ok(breaker.isClosed());
+    breaker
+        .run('ok')
+        .then(function (data) {
+            t.equal(data, 'ok');
+            t.ok(breaker.isClosed());
+            t.end();
+        }).catch(function (error) {
+            t.error(err);
+            t.end();
+        })
+});
+
+test('Failing Promise', function (t) {
+    var breaker;
+
+    breaker = new Breaker(promiseFailure);
+
+    t.ok(breaker.isClosed());
+    breaker
+        .run('nok')
+        .catch(function (error) {
+            t.ok(error);
+            t.equal(error.message, 'nok');
+            t.end();
+        })
+});
+
