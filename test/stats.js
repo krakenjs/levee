@@ -86,7 +86,7 @@ test('maxSamples', function (t) {
     t.equal(stats._samples.foo[1], 11);
 
     stats.sample('foo', 12);
-    t.equal(stats._samples.foo.length, 1);
+    t.equal(stats._samples.foo.length, 2);
 
     t.end();
 });
@@ -101,7 +101,7 @@ test('maxSamplesDefault', function (t) {
     }
     t.equal(stats._samples.foo.length, 1000);
     stats.sample('foo', 1001);
-    t.equal(stats._samples.foo.length, 1);
+    t.equal(stats._samples.foo.length, 1000);
 
     t.end();
 });
