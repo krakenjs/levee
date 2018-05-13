@@ -69,6 +69,42 @@ test('sample', function (t) {
     t.end();
 });
 
+test('maxSamples', function (t) {
+    var stats;
+
+    stats = new Stats({ maxSamples: 2 });
+    t.equal(Object.keys(stats._samples).length, 0);
+
+    stats.sample('foo', 10);
+    t.equal(stats._samples.foo.length, 1);
+    t.ok('foo' in stats._samples);
+    t.equal(stats._samples.foo[0], 10);
+
+    stats.sample('foo', 11);
+    t.equal(stats._samples.foo.length, 2);
+    t.ok('foo' in stats._samples);
+    t.equal(stats._samples.foo[1], 11);
+
+    stats.sample('foo', 12);
+    t.equal(stats._samples.foo.length, 1);
+
+    t.end();
+});
+
+test('maxSamplesDefault', function (t) {
+    var stats, i;
+
+    stats = new Stats();
+
+    for (i = 0; i < 1000; i++) {
+        stats.sample('foo', i);
+    }
+    t.equal(stats._samples.foo.length, 1000);
+    stats.sample('foo', 1001);
+    t.equal(stats._samples.foo.length, 1);
+
+    t.end();
+});
 
 test('reset', function (t) {
     var stats;
