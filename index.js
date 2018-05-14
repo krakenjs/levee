@@ -18,12 +18,12 @@ exports.createBreaker = function createBreaker(impl, options) {
 };
 
 
-exports.createStats = function createStats(command) {
+exports.createStats = function createStats(command, options) {
     var stats;
 
     Assert.ok(command instanceof Breaker, 'Stats can only be created for Breaker instances.');
 
-    stats = new Stats();
+    stats = new Stats(options);
 
     command.on('execute', stats.increment.bind(stats, 'executions'));
     command.on('reject',  stats.increment.bind(stats, 'rejections'));

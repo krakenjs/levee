@@ -56,19 +56,55 @@ test('sample', function (t) {
 
     stats.sample('foo', 10);
     t.ok('foo' in stats._samples);
-    t.equal(stats._samples.foo[0], 10);
+    t.equal(stats._samples.foo.get(0), 10);
 
     stats.sample('foo', 11);
     t.ok('foo' in stats._samples);
-    t.equal(stats._samples.foo[1], 11);
+    t.equal(stats._samples.foo.get(1), 11);
 
     stats.sample('bar', 12);
     t.ok('bar' in stats._samples);
-    t.equal(stats._samples.bar[0], 12);
+    t.equal(stats._samples.bar.get(0), 12);
 
     t.end();
 });
 
+test('maxSamples', function (t) {
+    var stats;
+
+    stats = new Stats({ maxSamples: 2 });
+    t.equal(Object.keys(stats._samples).length, 0);
+
+    stats.sample('foo', 10);
+    t.equal(stats._samples.foo.toArray().length, 1);
+    t.ok('foo' in stats._samples);
+    t.equal(stats._samples.foo.get(0), 10);
+
+    stats.sample('foo', 11);
+    t.equal(stats._samples.foo.toArray().length, 2);
+    t.ok('foo' in stats._samples);
+    t.equal(stats._samples.foo.get(1), 11);
+
+    stats.sample('foo', 12);
+    t.equal(stats._samples.foo.toArray().length, 2);
+
+    t.end();
+});
+
+test('maxSamplesDefault', function (t) {
+    var stats, i;
+
+    stats = new Stats();
+
+    for (i = 0; i < 1000; i++) {
+        stats.sample('foo', i);
+    }
+    t.equal(stats._samples.foo.toArray().length, 1000);
+    stats.sample('foo', 1001);
+    t.equal(stats._samples.foo.toArray().length, 1000);
+
+    t.end();
+});
 
 test('reset', function (t) {
     var stats;
@@ -81,7 +117,7 @@ test('reset', function (t) {
 
     stats.sample('foo', 10);
     t.ok('foo' in stats._samples);
-    t.equal(stats._samples.foo[0], 10);
+    t.equal(stats._samples.foo.get(0), 10);
 
     stats.reset();
     t.equal(stats._counts.foo, 0);

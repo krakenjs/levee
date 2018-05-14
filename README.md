@@ -158,9 +158,13 @@ Executes the wrapped functionality within the circuit breaker functionality with
 
 
 ## Stats
-`new Levee.Stats(breaker)` or `Levee.createStats(breaker)`
+`new Levee.Stats(breaker, options)` or `Levee.createStats(breaker, options)`
 
 A simple data aggregation object.
+
+#### Options
+##### `maxSamples`
+Restricts the length of duration samples. The default value is `1000`.
 
 #### Methods
 
