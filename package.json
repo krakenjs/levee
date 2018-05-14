@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "CBuffer": "^2.0.0",
-    "hoek": "^2.4.1"
+    "hoek": "^4.2.0"
   },
   "repository": {
     "type": "git",
