@@ -1,3 +1,6 @@
+## v1.4.0
+- Added a new option for stats `maxSamples` which restricts sample length.
+
 ## v1.3.0
 - Add custom error message for timeout and circuit open
   - https://github.com/krakenjs/levee/pull/14
