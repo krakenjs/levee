@@ -3,7 +3,7 @@ Levee
 
 A [circuit breaker](http://doc.akka.io/docs/akka/snapshot/common/circuitbreaker.html) implementation based heavily on
 ryanfitz's [node-circuitbreaker](https://github.com/ryanfitz/node-circuitbreaker). More information about the circuitbreaker
-pattern can be found in the [akka documentation](http://doc.akka.io/docs/akka/snapshot/common/circuitbreaker.html).
+pattern can be found in the [akka documentation](https://doc.akka.io/docs/akka/current/common/circuitbreaker.html).
 
 [![Build Status](https://travis-ci.org/krakenjs/levee.svg)](https://travis-ci.org/krakenjs/levee)
 
@@ -39,26 +39,26 @@ function fallback(url, callback) {
     callback(null, null, new Buffer('The requested website is not available. Please try again later.'));
 }
 
-circuit = Levee.createBreaker(service, options);
-circuit.fallback = Levee.createBreaker(fallback, options);
+breaker = Levee.createBreaker(service, options);
+breaker.fallback = Levee.createBreaker(fallback, options);
 
-circuit.on('timeout', function () {
+breaker.on('timeout', function () {
     console.log('Request timed out.');
 });
 
-circuit.on('failure', function (err) {
+breaker.on('failure', function (err) {
     console.log('Request failed.', err);
 });
 
-circuit.run('http://www.google.com', function (err, req, payload) {
+breaker.run('http://www.google.com', function (err, req, payload) {
     // If the service fails or timeouts occur 5 consecutive times,
     // the breaker opens, fast failing subsequent requests.
     console.log(err || payload);
 });
 
 var stats, fbStats;
-stats = Levee.createStats(circuit);
-fbStats = Levee.createStats(circuit.fallback);
+stats = Levee.createStats(breaker);
+fbStats = Levee.createStats(breaker.fallback);
 
 // Print stats every 5 seconds.
 setInterval(function () {
@@ -94,7 +94,7 @@ An alternative method for creating Breaker instances with the following argument
 ```javascript
 var Levee = require('levee');
 
-function doStuff(context, callback) {
+function fn(context, callback) {
     callback(null, 'ok');
 }
 
@@ -128,10 +128,10 @@ var breaker = Levee.createStats(breaker);
 
 #### Options
 ##### `timeout`
-the amount of time to allow an operation to run before terminating with an error.
+the amount of time to allow an operation to run before terminating with an error. In case the command execution exceeds the configured timeout, the run callback will be provided with an error with the `ETIMEDOUT` code.
 
 ##### `maxFailures`
-the number of failures allowed before the Breaker enters the `open` state.
+the number of failures allowed before the Breaker enters the `open` state. Once the breaker enters this state, the run callback will be provided with an error with the `EUNAVAILABLE` code.
 
 ##### `resetTimeout`
 the amount of time to wait before switch the Breaker from the `open` to `half_open` state to attempt recovery.
@@ -155,6 +155,7 @@ Executes the wrapped functionality within the circuit breaker functionality with
 
 - `context` - any context to be provided to the implementation.
 - `callback` - the callback to be fired upon completion with the signature `function (err, [param1, param2, ...])`
+  - `err` - any error ocurred during the command execution or a levee error caused either by timeout or an open circuit
 
 
 ## Stats
