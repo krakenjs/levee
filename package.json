@@ -20,7 +20,7 @@
   "author": "Erik Toth <totherik@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^0.7.4",
+    "eslint": "^4",
     "istanbul": "^0.3.0",
     "tape": "^2.14.1",
     "wreck": "^3.0.0"
