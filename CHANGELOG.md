@@ -1,3 +1,6 @@
+## Unreleased
+- Allow Levee to pass the return variable of the executed function to the circuit callback
+
 ## v1.4.0
 - Added a new option for stats `maxSamples` which restricts sample length.
 
