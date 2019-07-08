@@ -26,7 +26,7 @@ var timeout = {
 
 var timeoutCallback = {
     execute: function execute(value, callback){
-      setTimeout(callback, 20, 'ok');
+      setTimeout(callback, 20);
       return value;
     }
 };
