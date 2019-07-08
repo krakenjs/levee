@@ -211,7 +211,7 @@ test('timeout returned value', function(t){
     breaker.run('ok', function(err, data){
       t.ok(err);
       t.equal(err.message, 'Command timeout.');
-      t.equal(err.returnObj, 'ok');
+      t.equal(err.context, 'ok');
       t.notOk(data);
       t.ok(breaker.isOpen());
       t.end();
