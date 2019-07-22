@@ -24,6 +24,12 @@ var timeout = {
     }
 };
 
+var timeoutCallback = {
+    execute: function execute(value, callback){
+      setTimeout(callback, 20);
+      return value;
+    }
+};
 
 test('api', function (t) {
     var levee;
@@ -196,6 +202,21 @@ test('timeout', function (t) {
     });
 });
 
+test('timeout returned value', function(t){
+    var breaker;
+    breaker = new Breaker(timeoutCallback, {timeout: 10, maxFailures: 1});
+
+    t.ok(breaker.isClosed());
+
+    breaker.run('ok', function(err, data){
+      t.ok(err);
+      t.equal(err.message, 'Command timeout.');
+      t.equal(err.context, 'ok');
+      t.notOk(data);
+      t.ok(breaker.isOpen());
+      t.end();
+    });
+});
 
 test('multiple failures', function (t) {
     var breaker;
