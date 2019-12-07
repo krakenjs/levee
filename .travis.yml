@@ -1,9 +1,9 @@
 language: node_js
 
 node_js:
-  - "6"
-  - "8"
-  - "stable"
+  - "node"
+  - "lts/carbon"
+  - "lts/dubnium"
 
 script:
   - "npm run cover"

@@ -5,7 +5,7 @@ A [circuit breaker](http://doc.akka.io/docs/akka/snapshot/common/circuitbreaker.
 ryanfitz's [node-circuitbreaker](https://github.com/ryanfitz/node-circuitbreaker). More information about the circuitbreaker
 pattern can be found in the [akka documentation](http://doc.akka.io/docs/akka/snapshot/common/circuitbreaker.html).
 
-[![Build Status](https://travis-ci.org/krakenjs/levee.svg)](https://travis-ci.org/krakenjs/levee)
+[![Build Status](https://travis-ci.org/krakenjs/levee.svg)](https://travis-ci.org/krakenjs/levee) [![Greenkeeper badge](https://badges.greenkeeper.io/krakenjs/levee.svg)](https://greenkeeper.io/)
 
 #### Basic Usage
 ```javascript
