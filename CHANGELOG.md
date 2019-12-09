@@ -1,5 +1,9 @@
-## Unreleased
+## v1.5.0-alpha.1 
 - Allow Levee to pass the return variable of the executed function to the circuit callback on timeout
+- Update to hoek@^6: #19
+- Update all out of date dependencies via greenkeeper update: #28
+- Pass return object of executed function to circuit callback: #25
+
 
 ## v1.4.0
 - Added a new option for stats `maxSamples` which restricts sample length.
