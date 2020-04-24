@@ -22,7 +22,7 @@
   "devDependencies": {
     "eslint": "^6.1.0",
     "istanbul": "^0.4.5",
-    "tape": "^4.11.0",
+    "tape": "^5.0.0",
     "wreck": "^14.2.0"
   },
   "dependencies": {
