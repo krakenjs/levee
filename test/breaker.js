@@ -202,6 +202,28 @@ test('timeout', function (t) {
     });
 });
 
+test('timeout with custom failure check', function (t) {
+    var breaker;
+
+    breaker = new Breaker(timeout, {
+        isFailure: function () {
+            return false;
+        },
+        timeout: 10,
+        maxFailures: 1
+    });
+
+    t.ok(breaker.isClosed());
+
+    breaker.run('ok', function (err, data) {
+        t.ok(err);
+        t.equal(err.message, 'Command timeout.');
+        t.notOk(data);
+        t.ok(breaker.isClosed());
+        t.end();
+    });
+});
+
 test('timeout returned value', function(t){
     var breaker;
     breaker = new Breaker(timeoutCallback, {timeout: 10, maxFailures: 1});
