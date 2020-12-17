@@ -1,6 +1,6 @@
 'use strict';
 
-var Wreck = require('wreck');
+var Wreck = require('@hapi/wreck');
 var Levee = require('../');
 var Unreliable = require('./unreliable');
 
@@ -16,7 +16,7 @@ function request(circuit, done) {
 Unreliable.start(function () {
     var circuit;
 
-    circuit = Levee.createBreaker(Wreck.get, { resetTimeout: 500 });
+    circuit = Levee.createBreaker(callbackifyWreck, { resetTimeout: 500 });
     circuit.fallback = Levee.createBreaker(function (context, callback) {
         // Should always succeed.
         callback(null, null, 'The requested application is currently not available.')
@@ -27,3 +27,9 @@ Unreliable.start(function () {
     });
 });
 
+//Levee command must have a callback based interface
+function callbackifyWreck(url, cb) {
+    Wreck.get(url)
+    .then(({ res, payload }) => cb(null, res, payload))
+    .catch(err => cb(err, null, null))
+}
