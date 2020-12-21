@@ -1,4 +1,9 @@
-## v1.5.0 
+## Unreleased
+- Update examples and readme
+- Update to @hapi/hoek v9
+- Replace istanbul with nyc for coverage
+
+## v1.5.0
 - Allow Levee to pass the return variable of the executed function to the circuit callback on timeout
 - Update to hoek@^6: #19
 - Update all out of date dependencies via greenkeeper update: #28

@@ -12,7 +12,7 @@ pattern can be found in the [akka documentation](http://doc.akka.io/docs/akka/sn
 'use strict';
 
 var Levee = require('levee');
-var Wreck = require('wreck');
+var Wreck = require('@hapi/wreck');
 
 var options, circuit;
 
@@ -22,12 +22,18 @@ options = {
     resetTimeout: 30000
 };
 
-circuit = Levee.createBreaker(Wreck.get, options);
+circuit = Levee.createBreaker(callbackifyWreck, options);
 circuit.run('http://www.google.com', function (err, req, payload) {
     // If the service fails or timeouts occur 5 consecutive times,
     // the breaker opens, fast failing subsequent requests.
     console.log(err || payload);
 });
+
+//Levee command must have a callback based interface
+function callbackifyWreck(url, cb) {
+    Wreck.get(url)
+    .then(({ res, payload }) => cb(null, res, payload))
+    .catch(err => cb(err, null, null))
 
 ```
 
