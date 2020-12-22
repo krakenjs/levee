@@ -126,6 +126,8 @@ test('failure', function (t) {
         breaker.run('not ok', function (err, data) {
             t.ok(err);
             t.equal(err.message, 'Command not available.');
+            t.equal(err.name, 'commandUnavailable');
+            t.equal(err.code, 'EUNAVAILABLE');
             t.notOk(data);
             t.ok(breaker.isOpen());
             t.end();
@@ -196,6 +198,8 @@ test('timeout', function (t) {
     breaker.run('ok', function (err, data) {
         t.ok(err);
         t.equal(err.message, 'Command timeout.');
+        t.equal(err.name, 'commandTimeout');
+        t.equal(err.code, 'ETIMEDOUT');
         t.notOk(data);
         t.ok(breaker.isOpen());
         t.end();
